@@ -1,10 +1,11 @@
-var docRef = db.collection("User").get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data().username}`);
-        });
-        console.log(docRef);
-    });
+// var docRef = db.collection("User").get()
+//     .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(`${doc.id} => ${doc.data().username}`);
+//         });
+//         console.log(docRef);
+//     });
+
 // docRef.doc("class0").get().then(function(doc) {
 //     if (doc.exists) {
 //         console.log( doc.data());
