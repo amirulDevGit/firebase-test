@@ -7,7 +7,7 @@ var docRef = db.collection("User").get()
     });
 
 function renderList(querySnapshot) {
-    let i = 0;
+    let i = 1;
     let listNodes;
     querySnapshot.forEach((doc) => {
 
@@ -18,6 +18,7 @@ function renderList(querySnapshot) {
         // Counter
         let td0 = document.createElement("td");
         let td0_counter = document.createTextNode(i);
+        td0.classList.add("has-text-centered");
         td0.appendChild(td0_counter);
         
         // Username
@@ -34,6 +35,7 @@ function renderList(querySnapshot) {
         let td3 = document.createElement("td");
         let td1_cb = document.createElement("input");
         td1_cb.setAttribute("type", "checkbox");
+        td3.classList.add("has-text-centered");
         td3.appendChild(td1_cb);
     
         // Append all td to tr
@@ -43,9 +45,10 @@ function renderList(querySnapshot) {
         ntr.appendChild(td3);
         console.log(ntr)
         // Append all to single outside loop
-        listNodes = ntr;
+        // listNodes += ntr;
+        i++;
+        document.getElementById("list").append(ntr);
     });
-    document.getElementById("list").appendChild(listNodes);
 }
 // docRef.doc("class0").get().then(function(doc) {
 //     if (doc.exists) {
