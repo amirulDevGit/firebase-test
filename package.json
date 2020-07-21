@@ -1,0 +1,24 @@
+{
+  "name": "firebase",
+  "version": "1.0.0",
+  "description": "testing purpose",
+  "main": "date.js",
+  "dependencies": {
+    "bulma": "^0.9.0",
+    "bulma-calendar": "^6.0.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amirulDevGit/firebase-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amirulDevGit/firebase-test/issues"
+  },
+  "homepage": "https://github.com/amirulDevGit/firebase-test#readme"
+}

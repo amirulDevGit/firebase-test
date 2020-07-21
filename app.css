@@ -1,3 +1,7 @@
 .top-fix{
-      margin: 50px 0 50px 0;
+      margin-top: 50px;
+      margin-bottom: 50px;
+}
+.datetimepicker-dummy-wrapper{
+      width: 255px;
 }
