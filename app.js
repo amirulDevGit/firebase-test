@@ -29,14 +29,20 @@ classList.forEach((element)=>{
 })
 sel.setAttribute("name", "classList2");
 sel.classList.add("input");
-document.querySelector("#classList").appendChild(sel);
-document.querySelector("#classList2").appendChild(sel);
+document.getElementById("classList").appendChild(sel);
 
 function toggleModal(val) {
-      if(val !== undefined)
+      if(val !== undefined){
+            document.querySelector("#classList2").appendChild(sel);
             document.querySelector("#newStudent").classList.add("is-active");      
-      else
+      }
+      else{
+            document.getElementsByName("name")[0].value = "";
+            document.getElementsByName("classList2")[0].value = "";
+            document.querySelector("#classList").appendChild(sel);
             document.querySelector("#newStudent").classList.remove("is-active");      
+      }
+            
 }
 
 

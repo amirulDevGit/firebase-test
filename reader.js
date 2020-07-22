@@ -28,8 +28,9 @@ function insertUser(name,kelas) {
 }
 
 function insertClass(name,kelas) {
+    //Math.round(new Date().getTime()/1000*Math.random(2))
     kelas.add({
-        class_id: Math.round(new Date().getTime()/1000*Math.random(2)),
+        class_id: Number(new Date()),
         class_name: kelas,
     })
         .then(function (docRef) {
