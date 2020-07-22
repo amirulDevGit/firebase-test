@@ -50,7 +50,7 @@
                   <div class="column is-narrow">
                         <div class="field">
                               <label class="label">New Student</label>
-                              <div class="control">
+                              <div class="control" onclick="toggleModal('on')">
                                     <button class="button is-link"><i class="fas fa-plus"></i> &nbsp;Add
                                           Student</button>
                               </div>
@@ -81,32 +81,34 @@
                   </table>
             </div>
       </div>
-      <div class="modal is-active">
-            <div class="modal-background"></div>
+      <div class="modal" id="newStudent">
+            <div class="modal-background" onclick="toggleModal()"></div>
             <div class="modal-card">
                   <header class="modal-card-head">
                         <p class="modal-card-title">Add Student</p>
-                        <button class="delete" aria-label="close"></button>
+                        <button class="delete" aria-label="close" onclick="toggleModal()"></button>
                   </header>
+                  <form onsubmit="submitForm(event)" id="newStnd">
                   <div class="modal-card-body">
-                        <div class="field">
-                              <label class="label">Name</label>
-                              <div class="control">
-                                    <input class="input" type="text" placeholder="Text input">
-                              </div>
-                              <label class="label">Class</label>
-                              <div class="control">
-                                    <div class="select" id="classList2">
+                              <div class="field">
+                                    <label class="label">Name</label>
+                                    <div class="control">
+                                          <input class="input" type="text" placeholder="Students name" name="name">
+                                    </div>
+                                    <label class="label">Class</label>
+                                    <div class="control">
+                                          <div class="select" id="classList2">
+                                          </div>
                                     </div>
                               </div>
-                        </div>
                   </div>
                   <footer class="modal-card-foot">
-                        <button class="button is-success">Simpan</button>
-                        <button class="button">Batal</button>
+                        <button class="button is-success" type="submit">Simpan</button>
+                        <button class="button" onclick="toggleModal()">Batal</button>
                   </footer>
+                  </form>
             </div>
-            <button class="modal-close is-large" aria-label="close"></button>
+            <button class="modal-close is-large" aria-label="close" onclick="toggleModal()"></button>
       </div>
 </body>
 <link href="./node_modules/bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
