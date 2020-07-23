@@ -1,6 +1,5 @@
 let sel = document.createElement("select");
-kelas.orderBy("class_id");
-kelas.get()
+kelas.orderBy("class_id").get()
       .then((querySnapshot) => {
             let elSel = document.createTextNode("Please Select");
             let optSel = document.createElement("option");
