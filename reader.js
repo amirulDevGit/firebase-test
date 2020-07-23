@@ -14,7 +14,7 @@ function getUser(){
 function insertUser(name,kelas) {
     user.add({
         user_id: Math.round(new Date().getTime()/1000*Math.random(2)),
-        class_name: kelas,
+        class_id: kelas,
         username: name,
     })
         .then(function (docRef) {
@@ -61,6 +61,7 @@ function renderList(querySnapshot) {
     document.getElementById("list").innerHTML="";
     let i = 1;
     let listNodes;
+    kelas
     querySnapshot.forEach((doc) => {
 
         let username = doc.data().username;
@@ -82,11 +83,12 @@ function renderList(querySnapshot) {
         // var td2 = document.createElement("td");
         // var td2_user_id = document.createTextNode(user_id);
         // td2.appendChild(td2_user_id);
-        // Checkbox attendance
 
+        // Checkbox attendance
         let td3 = document.createElement("td");
         let td1_cb = document.createElement("input");
         td1_cb.setAttribute("type", "checkbox");
+        td1_cb.setAttribute("onclick", "addAttendance("+ user_id+","+ +")");
         td3.classList.add("has-text-centered");
         td3.appendChild(td1_cb);
     

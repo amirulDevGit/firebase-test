@@ -1,48 +1,47 @@
+let sel = document.createElement("select");
+kelas.orderBy("class_id");
+kelas.get()
+      .then((querySnapshot) => {
+            let elSel = document.createTextNode("Please Select");
+            let optSel = document.createElement("option");
+            optSel.setAttribute("value", "");
+            optSel.setAttribute("disabled", "");
+            optSel.setAttribute("selected", "");
+            optSel.appendChild(elSel);
+            sel.appendChild(optSel);
+            querySnapshot.forEach((doc) => {
+                  let opt = document.createElement("option");
+                  let el = document.createTextNode(doc.data().class_name);
+                  opt.appendChild(el);
+                  opt.setAttribute("value", doc.data().class_id);
+                  sel.appendChild(opt);
+
+            })
+            sel.setAttribute("name", "classList2");
+            sel.classList.add("input");
+            document.getElementById("classList").appendChild(sel);
+      })
+      .catch((error) => {
+            console.log(error);
+      });
 let classList = [
       "Please Select",
-      "1 IA",
-      "1 IK",
-      "2 IR",
-      "2 IM",
-      "3 IU",
-      "3 IM",
-      "4 IK",
-      "4 IQ",
-      "5 IS",
-      "5 IT",
 ]
 
-let sel = document.createElement("select");
-classList.forEach((element)=>{
-      let opt = document.createElement("option");
-      let el = document.createTextNode(element);
-      opt.appendChild(el);
-      opt.setAttribute("value",element);
 
-      if(element === "Please Select"){
-            opt.setAttribute("value","");
-            opt.setAttribute("disabled","");
-            opt.setAttribute("selected","");
-      }
-      sel.appendChild(opt);
-      
-})
-sel.setAttribute("name", "classList2");
-sel.classList.add("input");
-document.getElementById("classList").appendChild(sel);
 
 function toggleModal(val) {
-      if(val !== undefined){
+      if (val !== undefined) {
             document.querySelector("#classList2").appendChild(sel);
-            document.querySelector("#newStudent").classList.add("is-active");      
+            document.querySelector("#newStudent").classList.add("is-active");
       }
-      else{
+      else {
             document.getElementsByName("name")[0].value = "";
             document.getElementsByName("classList2")[0].value = "";
             document.querySelector("#classList").appendChild(sel);
-            document.querySelector("#newStudent").classList.remove("is-active");      
+            document.querySelector("#newStudent").classList.remove("is-active");
       }
-            
+
 }
 
 
@@ -52,6 +51,6 @@ function submitForm(e) {
       let formData = new FormData(El);
       let name = formData.get('name');
       let kelas = formData.get('classList2');
-      insertUser(name,kelas)
+      insertUser(name, kelas)
 
 }
