@@ -1,19 +1,30 @@
 let user = db.collection("User");
 let kelas = db.collection("Class");
 let attendance = db.collection("Attendance");
-function getUser(){
-    user.get()
-    .then((querySnapshot) => {
-        renderList(querySnapshot);
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+const qs = new URLSearchParams(window.location.search);
+function getUser() {
+    let temp;
+    let arg;
+    if (qs.has('class')) {
+        arg = qs.get('class');
+        temp = user.where("class_id", "==", parseInt(arg)).get();
+    }
+    else {
+        temp = user.get();
+    }
+
+    temp
+        .then((querySnapshot) => {
+            renderList(querySnapshot);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
-function insertUser(name,kelas) {
+function insertUser(name, kelas) {
     user.add({
-        user_id: Math.round(new Date().getTime()/1000*Math.random(2)),
+        user_id: Math.round(new Date().getTime() / 1000 * Math.random(2)),
         class_id: kelas,
         username: name,
     })
@@ -27,7 +38,7 @@ function insertUser(name,kelas) {
         });
 }
 
-function insertClass(name,kelas) {
+function insertClass(name, kelas) {
     //Math.round(new Date().getTime()/1000*Math.random(2))
     kelas.add({
         class_id: Number(new Date()),
@@ -42,7 +53,7 @@ function insertClass(name,kelas) {
         });
 }
 
-function insertAttendance(name,kelas) {
+function insertAttendance(name, kelas) {
     attendance.add({
         class_id: "",
         user_id: "",
@@ -58,14 +69,25 @@ function insertAttendance(name,kelas) {
 }
 
 function renderList(querySnapshot) {
-    document.getElementById("list").innerHTML="";
+    if (document.getElementById("list") !== null){
+        document.getElementById("list").innerHTML = "";
+    }
+    
     let i = 1;
     let listNodes;
-    kelas
+    kelas.get()
+        .then((kelasData) => {
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
     querySnapshot.forEach((doc) => {
 
         let username = doc.data().username;
         let user_id = doc.data().user_id;
+        let class_id = doc.data().class_id;
         var ntr = document.createElement("tr");
 
         // Counter
@@ -73,7 +95,7 @@ function renderList(querySnapshot) {
         let td0_counter = document.createTextNode(i);
         td0.classList.add("has-text-centered");
         td0.appendChild(td0_counter);
-        
+
         // Username
         let td1 = document.createElement("td");
         let td1_usrname = document.createTextNode(username);
@@ -88,10 +110,11 @@ function renderList(querySnapshot) {
         let td3 = document.createElement("td");
         let td1_cb = document.createElement("input");
         td1_cb.setAttribute("type", "checkbox");
-        td1_cb.setAttribute("onclick", "addAttendance("+ user_id+","+ +")");
+        td1_cb.setAttribute("checked", "");
+        td1_cb.setAttribute("onclick", "addAttendance(" + user_id + "," + class_id + ")");
         td3.classList.add("has-text-centered");
         td3.appendChild(td1_cb);
-    
+
         // Append all td to tr
         ntr.appendChild(td0);
         ntr.appendChild(td1);
