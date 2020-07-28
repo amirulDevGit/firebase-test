@@ -67,6 +67,13 @@
                   </div>
             </div>
             <div class="column">
+                  <div class="column is-one-quarter is-offset-one-quarter">
+                        <div class="notification is-primary">
+                              Attandance: 0/20
+                        </div>
+                  </div>
+            </div>
+            <div class="column">
                   <table class="table is-striped" style="width: 100%;">
                         <thead>
                               <tr>
@@ -91,7 +98,7 @@
                         <button class="delete" aria-label="close" onclick="toggleModal()"></button>
                   </header>
                   <form onsubmit="submitForm(event)" id="newStnd">
-                  <div class="modal-card-body">
+                        <div class="modal-card-body">
                               <div class="field">
                                     <label class="label">Name</label>
                                     <div class="control">
@@ -103,11 +110,11 @@
                                           </div>
                                     </div>
                               </div>
-                  </div>
-                  <footer class="modal-card-foot">
-                        <button class="button is-success" type="submit">Simpan</button>
-                        <button class="button" onclick="toggleModal()" type="button">Batal</button>
-                  </footer>
+                        </div>
+                        <footer class="modal-card-foot">
+                              <button class="button is-success" type="submit">Simpan</button>
+                              <button class="button" onclick="toggleModal()" type="button">Batal</button>
+                        </footer>
                   </form>
             </div>
             <button class="modal-close is-large" aria-label="close" onclick="toggleModal()"></button>
