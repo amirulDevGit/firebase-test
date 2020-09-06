@@ -1,4 +1,3 @@
-import User from "../utils/user";
 class Kelas {
       constructor() {
             this.kelass = db.collection("Class");
@@ -18,7 +17,8 @@ class Kelas {
                         console.error("Error adding document: ", error);
                   });
       }
-      getClass(args) {
+      async getClass(args) {
+            return new Promise((resolve, reject) => {
             let sel = document.createElement("select");
             let sel2 = document.createElement("select");
             this.kelass.orderBy("class_id", "asc").get()
@@ -67,13 +67,18 @@ class Kelas {
                         sel2.setAttribute("name", "classList4");
                         sel2.classList.add("input");
                         document.getElementById("classList3").appendChild(sel2);
+                        resolve();
                   })
                   .catch((error) => {
                         console.log(error);
                   });
+            });
       }
-      setQs(qs){
-            this.qs = qs;
+      async setQs(qs){
+            return new Promise((resolve, reject) => {
+                  this.qs = qs;
+                  resolve();
+            });
       }
 }
 export { Kelas as default };

@@ -1,13 +1,15 @@
 class Util {
       constructor() {
+            this.userCounter;
             let classSelectChanged = document.getElementById("classList");
             classSelectChanged.addEventListener("change", () => window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value, "_self"));
 
             let addStudentModal = document.getElementById("addStudentToggler"),
                   bgStudentModal = document.getElementById("bgStudentModal"),
                   ariaCloseStudentModal = document.getElementById("ariaCloseStudentModal"),
-                  cancelStudentModal = document.getElementById("cancelStudentModal");
-
+                  cancelStudentModal = document.getElementById("cancelStudentModal"),
+                  checkAll = document.getElementById("checkAll");
+                  
             addStudentModal.addEventListener("click", () => document.querySelector("#newStudent").classList.add("is-active"));
 
             bgStudentModal.addEventListener("click", () => {
@@ -26,6 +28,8 @@ class Util {
                   document.getElementsByName("classList4")[0].value = "";
                   document.querySelector("#newStudent").classList.remove("is-active");
             });
+
+            checkAll.addEventListener("click", (e) => this.checkAllAttandance(checkAll));
             // this.sel = document.createElement("select");
             // this.sel2 = document.createElement("select");
             // this.attandanceList = [];
@@ -43,6 +47,9 @@ class Util {
             }
 
       }
+      async setUserCounter(val){
+            this.userCounter = val;
+      }
       submitForm(e) {
             e.preventDefault();
             let El = document.forms.newStnd;
@@ -55,12 +62,12 @@ class Util {
       selectClass(val) {
             window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value, "_self")
       }
-      checkAllAttandance() {
-            for (let count = 1; count < i + 1; count++) {
-                  if (document.getElementById("attend_" + count) !== null && document.getElementById("attend_" + count).checked == false) {
+      checkAllAttandance(checkAll) {
+            for (let count = 1; count < this.userCounter + 1; count++) {
+                  if (document.getElementById("attend_" + count) !== null && checkAll.checked === true) {
                         document.getElementById("attend_" + count).checked = true;
                   }
-                  else if (document.getElementById("attend_" + count) !== null && document.getElementById("attend_" + count).checked == true) {
+                  else if (document.getElementById("attend_" + count) !== null && checkAll.checked === false) {
                         document.getElementById("attend_" + count).checked = false;
                   }
             }
