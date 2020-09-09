@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import Util from "./util";
 
 class User {
     constructor() {
@@ -8,7 +9,7 @@ class User {
         this.userCounter = 0;
     }
     async getUser() {
-            let self = this;
+            
             this.qs = new URLSearchParams(window.location.search);
 
             let datas = await this.getSDE();
@@ -37,20 +38,21 @@ class User {
         });
     }
     insertUser(name, kelas) {
-        user.add({
+        let self = this;
+        db.collection("User").add({
             user_id: nanoid(), // Math.round(new Date().getTime() / 1000 * Math.random(2)),
             class_id: kelas,
             username: name,
         })
             .then(function (docRef) {
-                getUser();
-                toggleModal();
-                console.log("Document written with ID: ", docRef.id);
+                self.getUser();
+                Util.toggleModal();
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
             });
     }
+
     insertAttendance(name, kelas) {
         attendance.add({
             class_id: "",

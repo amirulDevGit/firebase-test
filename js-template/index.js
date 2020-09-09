@@ -1,7 +1,7 @@
-import Date from "../utils/date";
-import User from "../utils/user";
-import Kelas from "../utils/classs";
-import Util from "../utils/util";
+import Date from "./date";
+import User from "./user";
+import Kelas from "./classs";
+import Util from "./util";
 
 async function run() {
       const date = new Date();

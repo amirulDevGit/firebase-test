@@ -1,3 +1,4 @@
+import User from "./user";
 class Util {
       constructor() {
             this.userCounter;
@@ -8,7 +9,8 @@ class Util {
                   bgStudentModal = document.getElementById("bgStudentModal"),
                   ariaCloseStudentModal = document.getElementById("ariaCloseStudentModal"),
                   cancelStudentModal = document.getElementById("cancelStudentModal"),
-                  checkAll = document.getElementById("checkAll");
+                  checkAll = document.getElementById("checkAll"),
+                  newStnd = document.getElementById("newStnd");
                   
             addStudentModal.addEventListener("click", () => document.querySelector("#newStudent").classList.add("is-active"));
 
@@ -30,19 +32,19 @@ class Util {
             });
 
             checkAll.addEventListener("click", (e) => this.checkAllAttandance(checkAll));
+            newStnd.addEventListener("submit", (e) => this.submitForm(e));
+
             // this.sel = document.createElement("select");
             // this.sel2 = document.createElement("select");
             // this.attandanceList = [];
       }
-      toggleModal(val) {
+      static toggleModal(val) {
             if (val !== undefined) {
-                  // document.querySelector("#classList2").appendChild(sel);
-                  document.querySelector("#newStudent").classList.add("is-active");
+                  document.querySelector("#newStudent").classList.add("is-active")
             }
             else {
-                  document.getElementsByClassName("input")
+                  document.getElementsByClassName("input");
                   document.getElementsByName("classList4")[0].value = "";
-                  document.querySelector("#classList").appendChild(sel);
                   document.querySelector("#newStudent").classList.remove("is-active");
             }
 
@@ -56,8 +58,8 @@ class Util {
             let formData = new FormData(El);
             let name = formData.get('name');
             let kelas = parseInt(formData.get('classList4'));
-            insertUser(name, kelas)
-
+            const userr = new User();
+            userr.insertUser(name, kelas);
       }
       selectClass(val) {
             window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value, "_self")
