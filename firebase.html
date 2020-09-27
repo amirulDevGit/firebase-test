@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
-<link rel="stylesheet" href="./app.css">
-<link rel="icon"
-      href="https://png.pngtree.com/png-vector/20190226/ourlarge/pngtree-fire-logo-icon-design-template-vector-png-image_705401.jpg">
-<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-firestore.js"></script>
-<script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-            apiKey: "AIzaSyDaGW2AlJNbHKXEiA3OP_uxTUDbHkTWLL0",
-            authDomain: "testproject-3754e.firebaseapp.com",
-            databaseURL: "https://testproject-3754e.firebaseio.com",
-            projectId: "testproject-3754e",
-            storageBucket: "testproject-3754e.appspot.com",
-            messagingSenderId: "1044700701990",
-            appId: "1:1044700701990:web:cdfbd9b4b9fbdbdf698de7",
-            measurementId: "G-RQ44SV6XVE"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      var db = firebase.firestore();
-</script>
-<!-- <script src="./reader.js"></script> -->
-<script src="https://kit.fontawesome.com/3826d8a598.js" crossorigin="anonymous"></script>
 
 <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>App Test</title>
+      <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css">
+      <link rel="stylesheet" href="./app.css">
+      <link rel="icon"
+            href="https://png.pngtree.com/png-vector/20190226/ourlarge/pngtree-fire-logo-icon-design-template-vector-png-image_705401.jpg">
+      <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-firestore.js"></script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                  apiKey: "AIzaSyDaGW2AlJNbHKXEiA3OP_uxTUDbHkTWLL0",
+                  authDomain: "testproject-3754e.firebaseapp.com",
+                  databaseURL: "https://testproject-3754e.firebaseio.com",
+                  projectId: "testproject-3754e",
+                  storageBucket: "testproject-3754e.appspot.com",
+                  messagingSenderId: "1044700701990",
+                  appId: "1:1044700701990:web:cdfbd9b4b9fbdbdf698de7",
+                  measurementId: "G-RQ44SV6XVE"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            var db = firebase.firestore();
+      </script>
+      <!-- <script src="./reader.js"></script> -->
+      <script src="https://kit.fontawesome.com/3826d8a598.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -42,8 +47,11 @@
                   <div class="column is-offset-one-fifth margin-adjusted padding-adjusted is-one-quarter">
                         <div class="field">
                               <label class="label">Select Date</label>
-                              <div class="control">
-                                    <input type="date">
+                              <div class="control has-icons-left">
+                                    <input type="text" id="datepicker" class="input">
+                                    <span class="icon is-small is-left ">
+                                          <i class="fas fa-calendar-alt"></i>
+                                    </span>
                               </div>
                         </div>
                   </div>
@@ -75,7 +83,7 @@
                   <div class="column">
                         <div class="column is-one-quarter">
                               <label class="checkbox">
-                                    <input type="checkbox" id="checkAll" checked>
+                                    <input type="checkbox" id="checkAll" checked="false">
                                     Checked All
                               </label>
                         </div>
@@ -86,7 +94,7 @@
                         <thead>
                               <tr>
                                     <td class="has-text-centered has-text-weight-bold">No</td>
-                                    <td class="has-text-centered has-text-weight-bold">Name</td>
+                                    <td class="has-text-weight-bold">Name</td>
                                     <td class="has-text-centered has-text-weight-bold">Attend</td>
                               </tr>
                         </thead>
@@ -94,7 +102,7 @@
                         </tbody>
                         <tfoot></tfoot>
                   </table>
-                  <button class="button is-primary is-pulled-right" onclick="" type="button">Kemaskini</button>
+                  <button class="button is-primary is-pulled-right" id="kemaskini" type="button">Kemaskini</button>
             </div>
       </div>
       <!-- Modal add new student -->
@@ -129,7 +137,7 @@
 </body>
 <script src="./assets/dist.js"></script>
 <!-- <script type="module" src="./node_modules/nanoid/non-secure/index.js"></script> -->
-<link href="./node_modules/bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet">
+<!-- <link href="./node_modules/bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet"> -->
 <!-- <script src="./node_modules/bulma-calendar/dist/js/bulma-calendar.min.js"></script>  -->
 <!-- <script src="./utils/date.js"></script> -->
 <!--<script src="./app.js"></script> -->

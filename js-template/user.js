@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import Util from "./util";
+import { DateTime } from "luxon";
 
 class User {
     constructor() {
@@ -8,13 +9,13 @@ class User {
         this.qs;
         this.userCounter = 0;
     }
-    async getUser() {
-            
-            this.qs = new URLSearchParams(window.location.search);
+    async getUser(dt) {
 
-            let datas = await this.getSDE();
-            await this.renderUserList(datas);
-            
+        this.qs = new URLSearchParams(window.location.search);
+
+        let datas = await this.getSDE();
+        await this.renderUserList(datas,dt);
+
     }
 
     getSDE() {
@@ -67,11 +68,10 @@ class User {
                 console.error("Error adding document: ", error);
             });
     }
-    renderUserList(querySnapshot) {
-        let self = this;
+    async renderUserList(querySnapshot,dt) {
         // return new Promise(resolve => {  console.log(1);
         // resolve()});
-
+        let att = await this.getAttandance();
         return new Promise(resolve => {
             let i = 1;
             querySnapshot.forEach((doc) => {
@@ -100,9 +100,17 @@ class User {
                 let td3 = document.createElement("td");
                 let td1_cb = document.createElement("input");
                 td1_cb.setAttribute("type", "checkbox");
-                td1_cb.setAttribute("checked", "false");
+                att.forEach(el => {
+                    // DateTime.fromFormat('13-07-2020','dd-LL-yyyy').toFormat('dd-LL-yyyy')
+                    if(el.class_id === class_id && el.user_id === user_id && el.date === DateTime.local().toFormat('dd-LL-yyyy')){
+                        td1_cb.setAttribute("checked", "false");
+                    }
+                });
+
+                // Data attribute
                 td1_cb.setAttribute("id", "attend_" + i);
-                td1_cb.setAttribute("onclick", "addAttendance(" + user_id + "," + class_id + ")");
+                td1_cb.setAttribute("value",user_id);
+                // td1_cb.setAttribute("onclick", "addAttendance(" + user_id + "," + class_id + ")");
                 td3.classList.add("has-text-centered");
                 td3.appendChild(td1_cb);
 
@@ -119,6 +127,25 @@ class User {
             });
             resolve();
         })
+    }
+    getAttandance(date){
+        return new Promise(resolve => {
+            let attandance = new Array();
+            let getAttandancce = this.attendance.get();
+            getAttandancce.then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let tempData = {};
+                    tempData.user_id = doc.data().user_id;
+                    tempData.class_id = doc.data().class_id;
+                    tempData.date = DateTime.fromSeconds(doc.data().date.seconds).toFormat('dd-LL-yyyy');
+                    attandance.push(tempData);
+                });
+                return resolve(attandance);
+            })
+                .catch((error) => {
+                    console.log(error);
+                })
+        });
     }
 }
 

@@ -11,7 +11,7 @@ class Util {
                   cancelStudentModal = document.getElementById("cancelStudentModal"),
                   checkAll = document.getElementById("checkAll"),
                   newStnd = document.getElementById("newStnd");
-                  
+
             addStudentModal.addEventListener("click", () => document.querySelector("#newStudent").classList.add("is-active"));
 
             bgStudentModal.addEventListener("click", () => {
@@ -49,8 +49,11 @@ class Util {
             }
 
       }
-      async setUserCounter(val){
-            this.userCounter = val;
+      async setUserCounter(val) {
+            return new Promise(resolve => {
+                  this.userCounter = val;
+                  resolve();
+            });
       }
       submitForm(e) {
             e.preventDefault();
