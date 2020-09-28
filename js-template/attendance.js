@@ -1,6 +1,8 @@
 class Attendance {
       constructor() {
             this.user = new Array();
+            this.present = new Array();
+            this.absent = new Array();
       }
 
       async init(userCounter, class_id) {
@@ -17,26 +19,49 @@ class Attendance {
 
       addAttendance(e, class_id) {
             if (document.getElementById(e.target.id).checked === true) {
-                  this.user.push([
+                  this.present.push([
                         { user_id: parseInt(e.target.value) },
                         { class_id: parseInt(class_id.get('class')) },
                         { date: $("#datepicker").datepicker("getDate") },
                   ]);
-                  console.log(this.user);
+                  let getIndexToBeDeleted = this.absent.findIndex(obj => obj.user_id === e.target.value);
+                  this.absent.splice(getIndexToBeDeleted, 1);
+                  // this.user.push([
+                  //       { user_id: parseInt(e.target.value) },
+                  //       { class_id: parseInt(class_id.get('class')) },
+                  //       { date: $("#datepicker").datepicker("getDate") },
+                  // ]);
+                  console.log('CHECKED');
+                  console.log('present');
+                  console.log(this.present);
+                  console.log('absent');
+                  console.log(this.absent);
             } else if (document.getElementById(e.target.id).checked === false) {
-                  let getIndexToBeDeleted = this.user.findIndex(obj => obj.user_id === e.target.value);
-                  this.user.splice(getIndexToBeDeleted, 1);
-                  console.log(this.user);
+                  this.absent.push([
+                        { user_id: parseInt(e.target.value) },
+                        { class_id: parseInt(class_id.get('class')) },
+                        { date: $("#datepicker").datepicker("getDate") },
+                  ]);
+                  let getIndexToBeDeleted = this.present.findIndex(obj => obj.user_id === e.target.value);
+                  this.present.splice(getIndexToBeDeleted, 1);
+                  // let getIndexToBeDeleted = this.user.findIndex(obj => obj.user_id === e.target.value);
+                  // this.user.splice(getIndexToBeDeleted, 1);
+                  // console.log(this.user);
+                  console.log('NOTT');
+                  console.log('present');
+                  console.log(this.present);
+                  console.log('absent');
+                  console.log(this.absent);
             }
       }
 
       deleteAttendance(e) {
             let getIndexToBeDeleted = this.user.findIndex(obj => obj.user_id === e.target.value);
             this.user.splice(getIndexToBeDeleted, 1);
-  
+
       }
       submitAttendance() {
-            db.collection('Attendance').where('job_id','==',post.job_id); // idk. just left here
+            db.collection('Attendance').where('job_id', '==', post.job_id); // idk. just left here
             this.user.forEach(el => {
                   db.collection("Attendance").add({
                         user_id: parseInt(el[0].user_id),
