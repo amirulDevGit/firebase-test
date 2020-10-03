@@ -1,42 +1,27 @@
 // import bulmaCalendar from "../node_modules/bulma-calendar/dist/js/bulma-calendar.min";
+import { DateTime } from "luxon";
 class Date {
 	constructor() {
-		this.options = {
-			type: 'date',
-			dateFormat: 'DD-MM-YYYY',
-			onReady: function(){
-				
-			}
-		};
+		this.opt = {
+			dateFormat: "dd-mm-yy",
+			onSelect: function (e) {
+				window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value + "&date=" + e, "_self")
+			},
+		}
+		this.dateNow;
+
 	}
 	async init() {
+		let initCheck = new URLSearchParams(window.location.search);
+		this.dateNow = (initCheck.has('date')) ? initCheck.get('date') : DateTime.local().toFormat('dd-LL-yyyy');
+		if (!initCheck.has('class') || !initCheck.has('date')) {
+			window.open("firebase.html" + "?class=1&date=" + this.dateNow, "_self")
+		}
 		return new Promise((resolve, reject) => {
-			// Initialize all input of date type.
-			var calendars = bulmaCalendar.attach('[type="date"]', this.options);
-
-			// Loop on each calendar initialized
-			calendars.forEach(calendar => {
-				calendar.value("2020-12-26")
-				console.log();
-				// Add listener to date:selected event
-				calendar.on('date:selected', date => {
-					console.log(date);
-				});
-			});
-			// To access to bulmaCalendar instance of an element
-			const element = document.querySelector('#bulCal');
-			// element.bulmaCalendar.datepicker.data.value("01-09-2020");
-			//element.bulmaCalendar['datePicker'].date.start = "01-09-2020"
-			// console.log(element.bulmaCalendar['datePicker'].date.start = "01-09-2020");
-			if (element) {
-				// bulmaCalendar instance is available as element.bulmaCalendar
-				element.bulmaCalendar.on('select', datepicker => {
-					// datepicker.data.value() = "01-09-2020";
-					console.log(datepicker.data.value());
-				});
-				// element.bulmaCalendar.on('ready ', this.options);
-			}
-			
+			// document.getElementById('bulCal').value = "2020-12-12"; // way to display on init
+			$("#datepicker").datepicker(this.opt);
+			$("#datepicker").datepicker("setDate", this.dateNow);
+			$("#datepicker").datepicker("option", "showAnim", "slideDown");
 			return resolve();
 		});
 	}

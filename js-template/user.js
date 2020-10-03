@@ -3,18 +3,19 @@ import Util from "./util";
 import { DateTime } from "luxon";
 
 class User {
-    constructor() {
+    constructor(dt) {
         this.user = db.collection("User");
         this.attendance = db.collection("Attendance");
         this.qs;
         this.userCounter = 0;
+        this.dt = dt;
     }
-    async getUser(dt) {
+    async getUser() {
 
         this.qs = new URLSearchParams(window.location.search);
 
         let datas = await this.getSDE();
-        await this.renderUserList(datas,dt);
+        await this.renderUserList(datas, this.dt);
 
     }
 
@@ -68,12 +69,13 @@ class User {
                 console.error("Error adding document: ", error);
             });
     }
-    async renderUserList(querySnapshot,dt) {
+    async renderUserList(querySnapshot, dt) {
         // return new Promise(resolve => {  console.log(1);
         // resolve()});
         let att = await this.getAttandance();
         return new Promise(resolve => {
             let i = 1;
+            let attVal = 0;
             querySnapshot.forEach((doc) => {
                 let username = doc.data().username;
                 let user_id = doc.data().user_id;
@@ -102,14 +104,15 @@ class User {
                 td1_cb.setAttribute("type", "checkbox");
                 att.forEach(el => {
                     // DateTime.fromFormat('13-07-2020','dd-LL-yyyy').toFormat('dd-LL-yyyy')
-                    if(el.class_id === class_id && el.user_id === user_id && el.date === DateTime.local().toFormat('dd-LL-yyyy')){
+                    if (el.class_id === class_id && el.user_id === user_id && el.date === this.dt) {
+                        attVal++;
                         td1_cb.setAttribute("checked", "false");
                     }
                 });
 
                 // Data attribute
                 td1_cb.setAttribute("id", "attend_" + i);
-                td1_cb.setAttribute("value",user_id);
+                td1_cb.setAttribute("value", user_id);
                 // td1_cb.setAttribute("onclick", "addAttendance(" + user_id + "," + class_id + ")");
                 td3.classList.add("has-text-centered");
                 td3.appendChild(td1_cb);
@@ -125,10 +128,17 @@ class User {
                 i++;
                 document.getElementById("list").append(ntr);
             });
+            if (attVal !== 0) {
+                document.getElementById("attVal").classList.remove("is-danger");
+                document.getElementById("attVal").classList.add("is-success");
+                document.getElementById("attVal").textContent = attVal + "/" + querySnapshot.size;
+            } else if (attVal === 0) {
+                document.getElementById("attVal").textContent = "Attandance not updated";
+            }
             resolve();
         })
     }
-    getAttandance(date){
+    getAttandance(date) {
         return new Promise(resolve => {
             let attandance = new Array();
             let getAttandancce = this.attendance.get();

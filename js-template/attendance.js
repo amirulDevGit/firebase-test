@@ -3,68 +3,63 @@ class Attendance {
             this.user = new Array();
             this.present = new Array();
             this.absent = new Array();
+            this.userCounter;
       }
 
       async init(userCounter, class_id) {
+            this.userCounter = userCounter;
             return new Promise(resolve => {
-                  for (let i = 1; i <= userCounter; i++) {
-
-                        let sel = document.getElementById("attend_" + i);
-                        sel.addEventListener("click", (e) => this.addAttendance(e, class_id));
-                  }
-                  document.getElementById('kemaskini').addEventListener("click", (e) => this.submitAttendance());
+                  document.getElementById('kemaskini').addEventListener("click", (e) => this.addAttendance(class_id));
                   resolve();
             })
       }
 
-      addAttendance(e, class_id) {
-            if (document.getElementById(e.target.id).checked === true) {
-                  this.present.push([
-                        { user_id: parseInt(e.target.value) },
-                        { class_id: parseInt(class_id.get('class')) },
-                        { date: $("#datepicker").datepicker("getDate") },
-                  ]);
-                  let getIndexToBeDeleted = this.absent.findIndex(obj => obj.user_id === e.target.value);
-                  this.absent.splice(getIndexToBeDeleted, 1);
-                  // this.user.push([
-                  //       { user_id: parseInt(e.target.value) },
-                  //       { class_id: parseInt(class_id.get('class')) },
-                  //       { date: $("#datepicker").datepicker("getDate") },
-                  // ]);
-                  console.log('CHECKED');
-                  console.log('present');
-                  console.log(this.present);
-                  console.log('absent');
-                  console.log(this.absent);
-            } else if (document.getElementById(e.target.id).checked === false) {
-                  this.absent.push([
-                        { user_id: parseInt(e.target.value) },
-                        { class_id: parseInt(class_id.get('class')) },
-                        { date: $("#datepicker").datepicker("getDate") },
-                  ]);
-                  let getIndexToBeDeleted = this.present.findIndex(obj => obj.user_id === e.target.value);
-                  this.present.splice(getIndexToBeDeleted, 1);
+      addAttendance(class_id) {
+            this.present.splice(0, this.present.length);
+            this.absent.splice(0, this.absent.length);
+            for (let k = 1; k <= this.userCounter; k++) {
+                  if (document.getElementById("attend_" + k).checked === true) {
+                        this.present.push([
+                              { user_id: document.getElementById("attend_" + k).value },
+                              { class_id: parseInt(class_id.get('class')) },
+                              { date: $("#datepicker").datepicker("getDate") },
+                        ]);
+                        // let getIndexToBeDeleted = this.absent.findIndex(obj => obj.user_id === document.getElementById("attend_" + k).value);
+                        // this.absent.splice(getIndexToBeDeleted, 1);
+                  } else if (document.getElementById("attend_" + k).checked === false) {
+                        this.absent.push([
+                              { user_id: document.getElementById("attend_" + k).value },
+                              { class_id: parseInt(class_id.get('class')) },
+                              { date: $("#datepicker").datepicker("getDate") },
+                        ]);
+                        // let getIndexToBeDeleted = this.present.findIndex(obj => obj.user_id === document.getElementById("attend_" + k).value);
+                        // this.present.splice(getIndexToBeDeleted, 1);
+                  }
                   // let getIndexToBeDeleted = this.user.findIndex(obj => obj.user_id === e.target.value);
                   // this.user.splice(getIndexToBeDeleted, 1);
-                  // console.log(this.user);
-                  console.log('NOTT');
-                  console.log('present');
-                  console.log(this.present);
-                  console.log('absent');
-                  console.log(this.absent);
             }
+            // console.log(this.present);
+            this.submitAttendance();
       }
 
-      deleteAttendance(e) {
-            let getIndexToBeDeleted = this.user.findIndex(obj => obj.user_id === e.target.value);
-            this.user.splice(getIndexToBeDeleted, 1);
-
-      }
       submitAttendance() {
-            db.collection('Attendance').where('job_id', '==', post.job_id); // idk. just left here
-            this.user.forEach(el => {
+            // Perform deletion on absent
+            this.absent.forEach(element => {
+                  let absentt = db.collection('Attendance')
+                        .where('user_id', '==', element[0].user_id)
+                        .where('class_id', '==', parseInt(element[1].class_id))
+                        .where('date', '==', element[2].date);
+                  absentt.get().then(function (querySnapshot) {
+                        querySnapshot.forEach(function (docRef) {
+                              docRef.ref.delete();
+                        });
+                  });
+            });
+
+            // Perform write         
+            this.present.forEach(el => {
                   db.collection("Attendance").add({
-                        user_id: parseInt(el[0].user_id),
+                        user_id: el[0].user_id,
                         class_id: parseInt(el[1].class_id),
                         date: el[2].date,
                   })
@@ -75,6 +70,13 @@ class Attendance {
                               console.error("Error adding document: ", error);
                         });
             })
+            if (this.present.length !== 0) {
+                  document.getElementById("attVal").classList.remove("is-danger");
+                  document.getElementById("attVal").classList.add("is-success");
+                  document.getElementById("attVal").textContent = "Updated: " + this.present.length + "/" + (this.present.length + this.absent.length);
+            } else if (this.present.length === 0) {
+                  document.getElementById("attVal").textContent = "Attandance not updated";
+            }
       }
 
 }
