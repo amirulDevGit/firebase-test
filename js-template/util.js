@@ -3,7 +3,7 @@ class Util {
       constructor(dateNow) {
             this.userCounter;
             let classSelectChanged = document.getElementById("classList");
-            classSelectChanged.addEventListener("change", () => window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value+ "&date=" + dateNow, "_self"));
+            classSelectChanged.addEventListener("change", () => window.open("firebase.html" + "?class=" + document.getElementById("classList").childNodes[1].value + "&date=" + dateNow, "_self"));
 
             let addStudentModal = document.getElementById("addStudentToggler"),
                   bgStudentModal = document.getElementById("bgStudentModal"),

@@ -1,5 +1,5 @@
 class Kelas {
-      constructor() {
+      constructor(db) {
             this.kelass = db.collection("Class");
             this.qsUser;
       }

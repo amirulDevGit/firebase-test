@@ -3,14 +3,15 @@ import Util from "./util";
 import { DateTime } from "luxon";
 
 class User {
-    constructor(dt) {
+    constructor(db,dt) {
         this.user = db.collection("User");
+        this.db = db;
         this.attendance = db.collection("Attendance");
         this.qs;
         this.userCounter = 0;
         this.dt = dt;
     }
-    async getUser() {
+    async getUser(db) {
 
         this.qs = new URLSearchParams(window.location.search);
 
@@ -39,9 +40,9 @@ class User {
                 })
         });
     }
-    insertUser(name, kelas) {
+    insertUser(db, name, kelas) {
         let self = this;
-        db.collection("User").add({
+        this.db.collection("User").add({
             user_id: nanoid(), // Math.round(new Date().getTime() / 1000 * Math.random(2)),
             class_id: kelas,
             username: name,
